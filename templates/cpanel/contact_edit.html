@@ -1,0 +1,56 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}{{ contact.lastname }}, {{ contact.firstname }} (edit){% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">{{ contact.title }} {{ contact.firstname }} {{ contact.lastname }}</h1>
+
+<div class="row">
+	<div class="col-lg-6 col-sm-12">
+		<form method="post" action="{% url 'cpanel:edit_contact' contact.id %}">
+			{% csrf_token %}
+			<div class="form-group col-lg-2 col-sm-4">
+				<label for="title">Title</label>
+				<input type="text" class="form-control" name="title" value="{{contact.title}}">
+			</div>
+			<div class="form-group col-lg-5 col-sm-8">
+				<label for="firstname">Firstname</label>
+				<input type="text" class="form-control" name="firstname" value="{{contact.firstname}}">
+			</div>
+			<div class="form-group col-lg-5 col-sm-12">
+				<label for="lastname">Lastname</label>
+				<input type="text" class="form-control" name="lastname" value="{{contact.lastname}}">
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="company">Company</label>
+				<input type="hidden" name="company" value="{{contact.company.id}}">
+				<select class="form-control">
+					<option>{{ contact.company }}</option>
+				</select>
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="job_title">Role/Job Title</label>
+				<input type="text" class="form-control" name="job_title" value="{{contact.job_title}}">
+			</div>
+			<div class="form-group col-sm-12">
+				<label for="phone">Telephone</label>
+				<input type="text" pattern="[0-9]+" class="form-control" name="phone" value="{{contact.phone}}">
+			</div>
+			<div class="form-group col-sm-12">
+				<label for="email">Email Address</label>
+				<input type="email" class="form-control" name="email" value="{{contact.email}}">
+			</div>
+			<div class="form-group col-sm-12">
+				<label for="notes">Notes/details</label>
+				<textarea class="form-control" name="notes" rows="5">{{contact.notes}}</textarea>
+			</div>
+			{{ form.errors }}
+			<div class="form-group col-sm-12">
+				<input type="submit" class="btn btn-lg btn-success" value="Save">
+				<a href="#" class="btn btn-lg btn-danger">Delete record</a>
+			</div>
+	</div>
+</div>
+
+{% endblock %}

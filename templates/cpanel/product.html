@@ -1,0 +1,49 @@
+{% extends 'cpanel/head.html' %}
+{% load thumbnail %}
+{% block title %}Ljfughuyirt{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">{{ product.name }}</h1>
+<div class="row">
+	<div class="col-lg-6 col-sm-12">
+		SKU: {{ product.SKU }}<br>
+		Price: £{{ product.price|floatformat:2 }}<br>
+		Description: {{ product.details|linebreaks }}<br>
+		Stock: {{ product.stock }}<br>
+		Sale: {{ product.sales }}<br>
+		<a href="{% url 'cpanel:edit_product' product.slug %}">Edit details</a>
+		<a href="{% url 'cpanel:new_image' product.slug %}">Add Image</a>
+	</div>
+	<div class="col-lg-3 col-sm-6">
+		<form action="{% url 'cpanel:product' product.slug %}" method="post">
+			{% csrf_token %}
+			<table class="table">
+				<tr>
+					<th>Image</th>
+					<th>Cover Image?</th>
+					<th></th>
+				</tr>
+				<tr><td></td><td></td></tr>
+			{% if images %}
+			{% for i in images %}
+				<tr>
+					<td><img src="{% thumbnail i.image 140x140 crop %}" alt="{{ product.name }}" class="img-rounded"></td>
+					<td><input type="radio" name="is_main" value="{{ i.pk }}" {% if i.is_main_image %}checked{% endif %}></td>
+					<td><a href="{% url 'cpanel:delete_image' i.pk %}"><i class="fa fa-trash-o"></i></a></td>
+				</tr>
+			{% endfor %}
+			</table>
+			{% else %}
+			</table>
+			<p>No images uploaded yet.<br><a href="{% url 'cpanel:new_image' product.slug %}" class="btn btn-info">Add one?</a></p>
+			{% endif %}
+		
+	</div>
+	<div class="col-lg-3 col-sm-6">
+		<input type="submit" value="Save Image Setting" class="btn btn-success btn-lg">
+		</form>
+	</div>
+</div>
+
+{% endblock %}

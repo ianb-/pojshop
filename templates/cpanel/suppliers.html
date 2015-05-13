@@ -1,0 +1,69 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Suppliers{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">Suppliers <span data-toggle="modal" data-target="#supplierModal" class="new-item-button fa fa-plus-circle"></span></h1>
+        <table class="table">
+            <tr>
+                <th>Company</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Contacts</th>
+                <th>Notes</th>
+                <th></th>
+            </tr>
+            {% for supplier in suppliers %}
+                <tr>
+                    <td>{{ supplier.name }}</td>
+                    <td>{{ supplier.city }}
+                        <div id="address-card">
+                            <address>
+                                <strong>{{ supplier.name }}</strong><br>
+                                {{ supplier.address1 }}, {{ supplier.address2 }}<br>
+                                {{ supplier.city }}, {{ supplier.county }}<br>
+                                {{ supplier.postcode }}<br>
+                                <abbr title="Phone">T:</abbr> {{ supplier.phone }}<br>
+                                <abbr title="Emaile">E:</abbr> {{ supplier.email }}
+                            </address>
+                        </div>
+                    </td>
+                    <td>{{ supplier.email }}</td>
+                    <td>{{ supplier.phone }}</td>
+                    <td>Contacts <span class="caret"></span>
+                        <ul class="dropdown-menu">
+                            {% for contact in supplier.contacts %}
+                            <li>{{ contact.firstname }} {{ contact.lastname }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ supplier.notes|linebreaks|truncatechars:100}}</td>
+                    <td><a href="{% url 'cpanel:supplier' supplier.id %}"><i class="fa fa-search"></i></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="supplierModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="supplierModalLabel">
+                    <a href="{% url 'cpanel:supplier_new' %}">New Supplier</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                {% include "cpanel/forms/form_supplier_new.html" %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

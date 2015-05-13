@@ -1,0 +1,25 @@
+{% if categories %}
+    <ul><h3>Categories</h3>
+        {% for category in categories %}
+        <li><a href="{% url 'shop:lol' category.slug %}">{{ category.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% if parent %}
+    <ul><h3>Parent</h3>
+        <li><a href="{% url 'shop:lol' parent.slug %}">{{ parent.title }}</a></li>
+    </ul>
+    {% endif %}
+
+    <ul><h3>Siblings</h3>
+        {% for category in siblings %}
+        <li><a href="{% url 'shop:lol' category.slug %}">{{ category.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <ul><h3>Children</h3>
+        {% for category in children %}
+        <li><a href="{% url 'shop:lol' category.slug %}">{{ category.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

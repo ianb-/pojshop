@@ -1,0 +1,13 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}New Contact{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<h1 class="page-header">New Contact</h1>
+	<div class="col-md-6">
+		{% include 'cpanel/forms/form_contact_new.html' %}
+	</div>
+</div>
+{% endblock %}

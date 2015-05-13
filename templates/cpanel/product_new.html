@@ -1,0 +1,14 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        <h1 class="page-header">Add a product</h1>
+        {% include 'cpanel/forms/form_product_new.html' %}
+    </div>
+</div>
+
+{% endblock %}

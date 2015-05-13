@@ -1,0 +1,32 @@
+<form method="post" action="{% url 'cpanel:supplier_new' %}">
+	{% csrf_token %}
+	{{ form.errors }}
+	<div class="form-group">
+		<label for="supplierName">Name</label>
+		<input type="text" class="form-control" id="supplierName" name="name">
+	</div>
+	<div>
+		<label for="supplierAddress">Address</label>
+		<input type="text" class="form-control" id="supplierAddr1" name="address1">
+		<input type="text" class="form-control" id="supplierAddr2" name="address2">
+		<label for="supplierCity">City</label>
+		<input type="text" class="form-control" id="supplierCity" name="city">
+		<label for="supplierCounty">County</label>
+		<input type="text" class="form-control" id="supplierCounty" name="county">
+		<label for="supplierPostcode">Postcode</label>
+		<input type="text" class="form-control" id="supplierPostcode" name="postcode">
+	</div>
+	<div class="form-group">
+		<label for="supplierPhone">Telephone Number</label>
+		<input type="text" class="form-control" id="supplierPhone" name="phone">
+	</div>
+	<div class="form-group">
+		<label for="supplierEmail">Email Address</label>
+		<input type="email" class="form-control" id="supplierEmail" name="email">
+	</div>
+	<div class="form-group">
+		<label for="supplierNotes">Notes</label>
+		<textarea class="form-control" rows="10" id="supplierNotes" name="notes"></textarea>
+	</div>
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>

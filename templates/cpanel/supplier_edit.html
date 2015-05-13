@@ -1,0 +1,54 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Edit {{ supplier }}{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">{{ supplier }}</h1>
+
+<div class="row">
+	<div class="col-lg-6 col-sm-12">
+		<form method="post" action="{% url 'cpanel:edit_supplier' supplier.id %}">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="">Company Name</label>
+				<input type="text" class="form-control" name="name" value="{{supplier.name}}">
+			</div>
+			<div class="form-group">
+				<label for="">Address</label>
+				<input type="text" class="form-control" name="address1" value="{{supplier.address1}}">
+				<input type="text" class="form-control" name="address2" value="{{supplier.address2}}">
+			</div>
+			<div class="form-group">
+				<label for="">City/town</label>
+				<input type="text" class="form-control" name="city" value="{{supplier.city}}">
+			</div>
+			<div class="form-group">
+				<label for="">County/region</label>
+				<input type="text" class="form-control" name="county" value="{{supplier.county}}">
+			</div>
+			<div class="form-group">
+				<label for="">Postcode</label>
+				<input type="text" class="form-control" name="postcode" value="{{supplier.postcode}}">
+			</div>
+			<div class="form-group">
+				<label for="">Telephone</label>
+				<input type="text" class="form-control" name="phone" value="{{supplier.phone}}">
+			</div>
+			<div class="form-group">
+				<label for="">Email</label>
+				<input type="email" class="form-control" name="email" value="{{supplier.email}}">
+			</div>
+			<div class="form-group">
+				<label for="">Details/notes</label>
+				<textarea class="form-control" name="notes" rows="5">{{supplier.notes}}</textarea>
+			</div>
+			{% for e in form %}
+				<p>{{e.error}}</p>
+			{% endfor %}
+			<input type="submit" class="btn btn-success btn-lg" value="Save">
+		</form>
+	</div>
+</div>
+
+{% endblock %}

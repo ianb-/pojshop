@@ -1,0 +1,36 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Purchase Orders{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="page-header">
+        Purchase Orders <a href="{% url 'cpanel:new_purchase' %}" class="new-item-button fa fa-plus-circle"></a>
+    </h1>
+    <div class="col-md-4">
+        <table class="table">
+            <tr>
+                <th>Supplier</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            {% for order in purchases %}
+            <tr {% if order.final %}class="bg-success"{% else %}class="bg-danger"{% endif %}>
+                <td>{{ order.supplier }}</td>
+                <td>£{{ order.price|floatformat:2 }}</td>
+                <td>{{ order.date }}</td>
+                <td>
+                    <a href="{% url 'cpanel:purchase' order.id %}"><i class="fa fa-folder"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-3">
+        <div id="purchase-details">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

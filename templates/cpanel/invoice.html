@@ -1,0 +1,80 @@
+<html>
+
+<head>
+	<title>Order {{ order.order_id }}</title>
+	<style>
+		html, body {
+			height: 297mm;
+			width: 210mm;
+		}
+		table {
+			width: 80%;
+			margin: 0 auto;
+			padding-top: 20mm;
+		}
+		#head {
+			height: 75mm;
+		}
+		#branding {
+			width: 70%;
+			float: left;
+		}
+		#postage {
+			padding-top: 20mm;
+			width: 30%;
+			float: right;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="head">
+		<div id="branding"><h1>The Inventory</h1></div>
+		<div id="postage">
+			<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+			{{ order.address1 }}<br>
+			{{ order.address2 }}<br>
+			{{ order.city }}<br>
+			{{ order.county }}<br>
+			{{ order.postcode }}<br>
+		</div>
+	</div>
+	<br>
+	<div id="content">
+		<p>
+			<h3>{{ order.first_name }} {{ order.last_name }},</h3>
+		</p>
+		<p>
+			Thank you for ordering from The Inventory! We hope you enjoy both your products and this poorly formatted placeholder invoice thing and blah blah blah blah blah blah
+			blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+			blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+		</p>
+		<p>
+			<table>
+				<tr>
+					<th align="left">Product</th>
+					<th align="left">Price</th>
+					<th align="left">Total</th>
+				</tr>
+				{% for p in products %}
+				<tr>
+					<td>{{ p.quantity }} x {{ p.product }}</td>
+					<td>£{{ p.product.price|floatformat:2 }}</td>
+					<td>£{{ p.price|floatformat:2 }}</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td><strong>£{{ order.total_price|floatformat:2 }}</strong></td>
+				</tr>
+			</table>
+		</p>
+	</div>
+	<div id="foot">
+		<i>The Inventory, registered company [some sort of company id code]. Then the address the company is registered to, or something. Also maybe a phone number and e-mail contact.<br>
+		info@theinventory-url.web-suffix :)</i>
+	</div>
+</body>
+
+</html>

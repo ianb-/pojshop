@@ -1,0 +1,53 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}{{ order.order_id }}{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">Order #{{ order.order_id }} - {% if order.shipped %}<span class="text-success">Completed</span>{% else %}<span class="text-danger">Processing</span>{% endif %}</h1>
+
+<div class="row">
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<h3>Delivery Address</h3>
+		<address>
+			<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+			{{ order.address1 }}<br>
+			{{ order.address2 }}<br>
+			{{ order.city }}<br>
+			{{ order.county }}<br>
+			{{ order.postcode }}
+		</address>
+		<p><a href="{% url 'cpanel:invoice' order.order_id %}" target="_blank"><h3><i class="fa fa-print"></i> Order Invoice</h3></a></p>
+		<p>Tracking Number: {{ order.tracking_number }}</p>
+	</div>
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<table class="table">
+			<tr>
+				<th>Item ID</th>
+				<th>Product</th>
+				<th>Serial Number</th>
+				<th></th>
+			</tr>
+			{% for item in items %}
+			<tr>
+				<td>{{ item.id }}</td>
+				<td>{{ item.product }}</td>
+				<td>{{ item.serial }}</td>
+				<td><a href="{% url 'cpanel:item' item.id %}" title="Item faulty or missing?"><i class="fa fa-thumbs-down"></i></a></td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% if order.shipped == False %}
+		<form action="{% url 'cpanel:shipping' order.order_id %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<label>Tracking Number</label>
+			<input type="text" class="form-control" name="tracking">
+		</div>
+		<input type="submit" value="Ship Order" class="btn btn-lg btn-primary">
+		</form>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}

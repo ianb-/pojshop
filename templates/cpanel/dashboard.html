@@ -1,0 +1,123 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Dashboard Lel{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Dashboard</h1>
+
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">0</div>
+                        <div>New Comments!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ my_tickets }}</div>
+                        <div>My Tickets!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>            
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{% if sale_count %}{{ sale_count }}{% else %}0{% endif %}</div>
+                        <div>New Orders!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{% if ticket_count %}{{ ticket_count }}{% endif %}</div>
+                        <div>Support Tickets!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Tickets</h2>
+        {% for ticket in tickets %}
+        <li><a href="{% url 'helpdesk:ticket' ticket.reference %}">
+            {{ticket.category|capfirst}} {{ticket.reference}} - <i>{{ticket.status}}</i></a></li>
+        {% endfor %}
+    </div>
+    <div class="col-lg-6">
+        <h2>Purchases</h2>
+        {% for purchase in purchases %}
+        <li><a href="#">{% if purchase.final %}<i>Inventoried</i>{% else %}To be processed{% endif %} £{{purchase.price}} {{purchase.supplier}}</a></li>
+        {% endfor %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Sales</h2>
+        {% for sale in sales %}
+        <li><a href="{% url 'cpanel:shipping' sale.order_id %}">{{ sale.order_id }}</a> £{{ sale.total_price }} - <i>{% if sale.shipped %}Shipped{% else %}To be processed{% endif %}</i></li>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

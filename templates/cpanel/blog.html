@@ -1,0 +1,32 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Blogs{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        {% if articles %}
+        <h1 class="page-header">Blog Posts</h1>
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Content</th>
+                </tr>
+                {% for article in articles %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.author }}</td>
+                    <td>{{ article.created }}</td>
+                    <td>{{ article.content|truncatechars:60 }}</td>
+                </tr>
+                {% endfor %}
+        {% elif article %}
+            <h2 class="page-header">{{ article.title }}</h2>
+            <p>by {{ article.author }} - <i>{{ article.created }}</i></p>
+            <p>{{ article.content|linebreaks }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

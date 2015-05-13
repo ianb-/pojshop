@@ -1,0 +1,59 @@
+{% extends 'base/shop.html' %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+
+<h1>Delivery Address</h1>
+<div class="row">
+	<div class="col-lg-8 col-sm-12">
+		<form action="{% url 'shop:checkout' %}" method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="row">
+					<div class="col-lg-6 col-xs-12">
+						<label for="first_name">First Name</label>
+						<input type="text" class="form-control" name="first_name" value="{{form.first_name.value}}">
+						{{form.errors.first_name}}
+					</div>
+					<div class="col-lg-6 col-xs-12">
+						<label for="last_name">Last Name</label>
+						<input type="text" class="form-control" name="last_name">
+						{{form.errors.last_name}}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="address">Address</label>
+				<input type="text" class="form-control" name="address1" value="{{form.address2.value}}">
+				{{form.errors.address1}}
+				<br>
+				<input type="text" class="form-control" name="address2" value="{{form.address2.value}}">
+				{{form.errors.address2}}
+			</div>
+			<div class="form-group">
+				<label for="city">City/Town</label>
+				<input type="text" class="form-control" name="city" value="{{form.city.value}}">
+				{{form.errors.city}}
+			</div>
+			<div class="form-group">
+				<label for="county">County/Region</label>
+				<input type="text" class="form-control" name="county" value="{{form.county.value}}">
+				{{form.errors.county}}
+			</div>
+			<div class="form-group">
+				<label for="postcode">Postcode</label>
+				<input type="text" class="form-control" name="postcode" value="{{form.postcode.value}}">
+				{{form.errors.postcode}}
+			</div>
+			<div class="form-group">
+				<label for="form-group">Telephone</label>
+				<input type="tel" class="form-control" name="phone" value="{{form.phone.value}}">
+				{{form.errors.phone}}
+			</div>
+			<button type="submit" class="btn btn-lg btn-block btn-primary">Make Payment!</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

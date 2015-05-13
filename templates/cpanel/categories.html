@@ -1,0 +1,31 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Product Categories{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">Product Categories</h1>
+	<div class="row">
+		<div class="col-md-4">
+		    {% if categories %}
+		    <table class="table">
+		    	<tr>
+		    		<th>Category</th>
+		    		<th><i class="fa fa-cogs"></i></th>
+		    	</tr>
+		        {% for cat in categories %}
+		        <tr>
+		        	<td><a href="/cpanel/{{ cat.slug }}">{{ cat.title }}</a></td>
+		        	<td></td>
+		        </tr>
+		        {% endfor %}
+		    </table>
+		    {% else %}
+		    <p>There were no categories found. Try adding some.</p>
+		    {% endif %}
+	   </div>
+	</div>
+
+<a href="{% url 'cpanel:new_cat' %}" class="btn btn-primary">Add Category</a>
+
+{% endblock content %}

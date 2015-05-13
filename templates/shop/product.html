@@ -1,0 +1,52 @@
+{% extends 'base/shop.html' %}
+
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+
+    {% if product %}
+    <h1 class="page-header">{{ product.name }}</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <a href="{{ image.image.url }}">
+                    <img class="img-responsive" src="{% static image.image.url %}">
+                </a>
+                <div class="row">
+                    {% for i in images %}
+                    <div class="col-sm-3">
+                        <img class="img-responsive img-thumbnail" src="{% thumbnail i.image 80x80 crop %}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <p>{{ product.details|linebreaks }}</p>
+                <br>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <p>
+                            {% if stock == 0 %}
+                                <p class="text-danger">Out of stock</p>
+                            {% elif stock < 5 %}
+                                <p class="text-danger">Stock is low! {{ stock }} remaining...</p>
+                            {% else %}
+                                <p class="text-success">In stock</p>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-xs-2">
+                        <input class="form-control" type="number" name="quantity" value=1 min="1" max="{{product.stock}}" pattern="[0-9]">
+                        <button class="btn btn-danger edit-trolley" id="buy-{{product.id}}" data-url="{% url 'shop:add_to_trolley' %}" data-direction="take" data-pid="{{product.id}}">Buy!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    {% else %}
+        <p>This isn't a product! There has been a mistake somewhere</p>
+    {% endif %}
+{% endblock %}

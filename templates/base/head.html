@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		<meta charset="utf8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link type="text/plain" rel="author" href="http://poj.ianb.net/humans.txt" />
+		<title>tInv - {% block title %}Justice!{% endblock %}</title>
+		<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+		<link href="{% static 'css/poj.css' %}" rel="stylesheet">
+		<link href="{% static 'cp/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav">
+        				<span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				    </button>
+				    <a class="navbar-brand" href="/"><strong>The Inventory</strong></a>
+				</div>
+				<div class="collapse navbar-collapse" id="top-nav">
+					<ul class="nav navbar-nav">
+						{% if categories %}
+						{% for c in categories %}
+						<li {% if c == category %}class="active"{% endif %}><a href="{% url 'shop:category' c.slug %}">{{ c.title }}</a></li>
+						{% endfor %}
+						{% endif %}
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li id="trolley"><a href="#"><i id="cart-icon" class="fa fa-shopping-cart fa-lg"></i> <span id="amount">{% if request.session.trolley.meta.amount > 0 %}({{ request.session.trolley.meta.amount }}){% endif %}</span> Trolley</a>
+			    			<div id="dropdown-trolley">
+			    				<table class="table" id="trolley-contents">
+			    					<tr>
+			    						<td>Shopping Trolley</td>
+			    						<td><a href="{% url 'shop:trolley' %}"><i class="fa fa-cogs"></i></a></td>
+			    					</tr>
+			    					{% if request.session.trolley.meta.amount == 0 %}
+			    						<tr><td><em>No Items</em></td></tr>
+			    					{% else %}
+				    					{% for key, value in request.session.trolley.contents.items %}
+				    					<tr class="trolley-item">
+				    						<td>{{ value.p_name }}</td>
+				    						<td>{{ value.quantity }}</td>
+				    					</tr>
+				    					{% endfor %}
+				    				{% endif %}
+			    				</table>
+			    				<button id="emptyTrolley" data-url="{% url 'shop:emptytrolley' %}" class="btn btn-danger"><i class="fa fa-trash-o"></i> Empty</button>
+			    				<a href="{% url 'shop:trolley' %}" id="checkout" class="btn btn-success">Checkout <em>£<span class="totalPrice">{% if request.session.trolley.meta > 0 %}{{ request.session.trolley.meta.total }}{% else %}0.00{% endif %}</span></em></a>
+			    			</div>
+			    		</li>
+					{% if user.is_authenticated %}
+						<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{user.username}}'s account <span class="caret"></span></a>
+          					<ul class="dropdown-menu" role="menu">
+          						{% if user.is_staff %}
+            					<li><a href="{% url 'cpanel:dashboard' %}"><i class="fa fa-wrench"></i> Admin Control Panel</a></li>
+            					{% endif %}
+								<li><a href="{% url 'shop:history' %}"><i class="fa fa-user"></i> My Account</a></li>
+								<li><a href="{% url 'helpdesk:contact' %}"><i class="fa fa-life-saver"></i> Support</a></li>
+					            <li class="divider"></li>
+					            <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
+					        </ul>
+        				</li>
+						<li><a href="{% url 'auth_logout' %}">Logout</a></li>
+					{% else %}
+						<li><a href="{% url 'registration_register' %}">Register</a></li>
+						<li><a href="{% url 'auth_login' %}">Login</a></li>
+					{% endif %}
+					</ul>
+				</div>
+			</div>
+			
+		</nav>
+
+		<div class="container">
+		{% block shop_nav %}{% endblock %}
+		{% block content %}Empty page :O{% endblock %}
+		</div>
+		<script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/poj.js' %}"></script>
+		<div class="row" id="footer">
+			<div class="container">
+				<div class="col-md-2 col-xs-12">
+					<p>
+						<h3><small>tInv Site</small></h3>
+						<a href="/"><span class="text-muted h5 small">Home</span></a><br>
+						<a href="{% url 'blog:index' %}"><span class="text-muted h5 small">Blog</span></a><br>
+						<a href="{% url 'helpdesk:contact' %}"><span class="text-muted h5 small">Contact Us</span></a><br>
+
+					</p>
+				</div>
+				<div class="col-md-2 col-md-offset-3 col-xs-12">
+					<p class="text-muted">
+						<h3><small>Social</small></h3>
+						<a href="https://twitter.com/"><span class="text-muted h5 small">Twitter</span></a><br>
+						<a href="https://facebook.com/"><span class="text-muted h5 small">Facespace</span></a><br>
+						<a href="https://last.fm/"><span class="text-muted h5 small">Last.fm</span></a>
+					</p>
+				</div>
+				<div class="col-md-2 col-md-offset-3 col-xs-12">
+					<p class="text-muted">
+						<h3><small>About us</small></h3>
+						<address class="text-muted h6 small">
+							<strong>The Inventory</strong><br>
+							123 Road Street View<br>
+							Townsville<br>
+							Countyshire, AA00 0AA<br>
+							<br>
+							01000 600000
+							info@theinventory.dne
+						</address>
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

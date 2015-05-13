@@ -1,0 +1,44 @@
+{% extends 'base/head.html' %}
+
+{% block title %}{{ user.username }}'s account{% endblock %}
+
+{% block content %}
+<div class="row">
+	<h1>Order History</h1>
+	<table class="table">
+		<tr>
+			<th>Reference Number</th>
+			<th>Items</th>
+			<th>Price</th>
+			<th>Status</th>
+			<th>Date</th>
+		</tr>
+	{% for order in orders %}
+		<tr>
+			<td><a href="{% url 'shop:order' order.order_id %}">{{ order.order_id }}</a></td>
+			<td><i>stuff</i></td>
+			<td>£{{ order.total_price }}</td>
+			<td>{% if order.shipped %}Shipped: {{ order.tracking_number }}{% else %}Processing{% endif %}</td>
+			<td>{{ order.date }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+<div class="row">
+	<h1>My Tickets</h1>
+	<table class="table">
+		<tr>
+			<th>Reference</th>
+			<th>
+			<th>Status</th>
+		</tr>
+		{% for ticket in tickets %}
+		<tr>
+			<td><a href="{% url 'helpdesk:ticket' ticket.reference %}">{{ ticket.reference }}</a></td>
+			<td>{{ ticket.category|capfirst }}</td>
+			<td>{{ ticket.status }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock content %}

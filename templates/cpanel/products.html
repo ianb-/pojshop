@@ -1,0 +1,47 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">Products</h1>
+
+<p>
+<a class="btn btn-info" href="{% url 'cpanel:new_product' %}">Add product</a>
+</p>
+
+{% if products %}
+	<table class="table table-hover">
+		<tr>
+			<th>ID</th>
+			<th>SKU</th>
+			<th>Product</th>
+			<th>Stock</th>
+			<th>Display</th>
+			<th><i class="fa fa-cogs fa-lg"></i></th>
+		</tr>
+	{% for product in products %}
+		<tr id="p{{ product.id }}">
+			<td>{{ product.id }}</td>
+			<td>{{ product.SKU }}</td>
+			<td>{{ product.name }}</td>
+			<td>{{ product.stock }}</td>
+			<td>
+			{% if product.shelf %}
+				<p class="text-success" role="alert"><i class="fa fa-toggle-on fa-lg toggle" data-id="{{ product.id }}"></i></p>
+			{% else %}
+				<p class="text-danger" role="alert"><i class="fa fa-toggle-off fa-lg toggle" data-id="{{ product.id }}"></i></p>
+			{% endif %}
+			</td>
+			<td>
+				<a href="{% url 'cpanel:edit_product' product.slug %}" title="Edit {{ product.name }}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+				<a href="{% url 'cpanel:product' product.slug %}" title="More Info"><i class="fa fa-info-circle fa-lg"></i></a>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<p>Can't find any of them products. Try adding some: <a class="btn btn-info" href="{% url 'cpanel:new_product' %}">Add product</a>
+{% endif %}
+
+{% endblock %}

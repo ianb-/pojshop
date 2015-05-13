@@ -1,0 +1,39 @@
+{% extends 'base/shop.html' %}
+
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Buy Stuff!{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">The Inventory </h1>
+
+<div class="row">
+	<div class="col-md-12">
+	{% if products %}
+		{% for product in products %}
+		<div class="col-md-3 col-sm-4 col-xs-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a href="{% url 'shop:product' product.slug %}">{{ product.name }}</a>
+				</div>
+				<div class="panel-body">
+					<a href="{% url 'shop:product' product.slug %}">
+						<img class="img-responsive" src="{% thumbnail product.image.image 200x250 crop %}">
+					</a>
+				</div>
+				<div class="panel-footer">
+					<button class="btn btn-danger edit-trolley" id="buy-{{product.id}}" data-url="{% url 'shop:add_to_trolley' %}" data-direction="take" data-pid="{{product.id}}">Buy!</button>
+					<span class="btn pull-right">£{{ product.price|floatformat:2 }}</span>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	{% else %}
+	<p>There are currently no products. Send help!</p>
+	{% endif %}
+	</div>
+</div>
+
+{% endblock %}

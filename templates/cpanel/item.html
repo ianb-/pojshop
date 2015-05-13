@@ -1,0 +1,50 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Item {{ item.id }}{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-lg-10">
+		<h1 class="page-header">{{ item.product }} ({{item.id}})</h1>
+		<div class="row">
+			<table class="table">
+				<tr>
+					<th>Product</th>
+					<th>Purchased</th>
+					<th>Sold</th>
+					<th>Profit/loss</th>
+					<th>Notes</th>
+				</tr>
+				<tr>
+					<td>{{ item.product }}</td>
+					<td><a href="{% url 'cpanel:purchase' item.purchase_order.id %}">£{{ item.purchase_price }} - {{ item.purchase_order.date }}</a></td>
+					<td>
+						{% if item.sale_order %}
+						<a href="{% url 'cpanel:shipping' item.sale_order.order_id %}">£{{ item.sale_price }} - {{ item.sale_order.date }}</a>
+						{% else %}
+						£{{ item.sale_price }}
+						{% endif %}
+					</td>
+					<td>£{{ profit }}</td>
+					<td>{% if item.note %}{{ item.note }}{% endif %}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-4">
+		<form method="post" action="{% url 'cpanel:item' item.id %}">
+		{% csrf_token %}
+			<h3>Item faulty, damaged, or lost? <input type="checkbox" name="withdraw" {% if item.sale_order == None %}checked{% endif %}></h3>
+			<p>Record a record of why the item is not for sale</p>
+			<div class="form-group">
+				<textarea name="note" class="form-control" rows="5">{% if item.note %}{{ item.note }}{% endif %}</textarea>
+			</div>
+			<input type="submit" value="Save" class="btn btn-info btn-lg">
+		</form>
+	</div>
+</div>
+
+{% endblock %}

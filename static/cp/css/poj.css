@@ -1,0 +1,31 @@
+.new-item-button {
+    color: #27ae60;
+}
+
+.new-item-button:hover {
+    color: #2ecc71;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#purchase-details {
+	display: none;
+}
+
+#address-card {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    border: 1px #d35400 solid;
+    border-radius: 5px;
+}
+
+.fa-trash-o {
+	display: none;
+	position: static;
+}
+
+.toggle:hover {
+	cursor: pointer;
+	transform: skew(10deg);
+}

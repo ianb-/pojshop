@@ -1,0 +1,31 @@
+{% extends 'base/head.html' %}
+
+{% block shop_nav %}
+	    <div class="navbar-header">
+	      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#shopnavbar">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      	</button>
+	    </div>
+	    <div class="row">
+		    <div class="col-md-12 poj-navbar">
+			    <ul class="nav navbar-nav">
+			    	{% if category %}
+			    		{% if category.level > 0 %}
+			    		{% for c in siblings %}
+			    			<li {% if c == category %}class="active"{% endif %}><a href="{% url 'shop:category' c.slug %}">{{c.title}}</a></li>
+			    		{% endfor %}
+			    		<br><br>
+			    		{% endif %}
+			    		<ul id="poj-child-nav" class="nav navbar-nav">
+			    			{% for c in children %}
+			    			<li><a href="{% url 'shop:category' c.slug %}">{{c.title}}</a></li>
+			    			{% endfor %}
+			    		</ul>
+			    	{% endif %}
+			    </ul>
+			</div>
+		</div>
+{% endblock %}

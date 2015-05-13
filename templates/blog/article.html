@@ -1,0 +1,15 @@
+{% extends 'base/head.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+	{% if article %}
+		<h1 class="page-header">{{ article.title }}</h1>
+		<p>Posted {{ article.created }} by {{ article.author }}</p>
+		<div>{{ article.content|linebreaks }}</div>
+	{% else %}
+		<h1>Error!</h1>
+		<p style="color:red">{{ error }}</p>
+		<p>wtf!</p>
+	{% endif %}
+{% endblock %}

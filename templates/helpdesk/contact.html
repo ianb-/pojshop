@@ -1,0 +1,70 @@
+{% extends 'base/head.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-12">
+		<ul class="nav nav-tabs" role="tabslist">
+			<li role="presentation" class="active"><a href="#contact" role="tab" data-toggle="tab">Contact</a></li>
+			{% if user.is_authenticated %}
+			<li role="presentation"><a href="#support" role="tab" data-toggle="tab">Support Ticket</a></li>
+			{% endif %}
+		</ul>
+		<div class="tab-content">
+			<!-- CONTACT PANEL -->
+			<div role="tabpanel" class="tab-pane active" id="contact">
+				<br>
+				<h3>Contact us!</h3>
+				<div>
+					<form action="{% url 'helpdesk:contact' %}" method="post">
+						{% csrf_token %}
+						<input type="hidden" name="category" value="general">
+						{% if user.is_authenticated %}
+						<input type="hidden" name="user">
+						{% else %}
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text" class="form-control" name="name" {% if form.name.value %}value="{{form.name.value}}"{%endif%}>
+						</div>
+						<div class="form-group">
+							<label>Email Address.</label>
+							<p>Please ensure your e-mail address is correct, as this is how we'll respond.</p>
+							<input type="text" class="form-control" name="email" {% if form.email.value %}value="{{form.email.value}}"{% endif %}>{{form.errors.email}}
+						</div>
+						{% endif %}
+						<div class="form-group">
+							<label>Query</label>
+							<textarea name="message" class="form-control" rows="5">{% if form.message.value %}{{form.message.value}}{% endif %}</textarea>
+						</div>
+						<input type="submit" class="btn btn-lg btn-primary" value="Send">
+					</form>
+				</div>
+			</div>
+			{% if user.is_authenticated %}
+			<!-- SUPPORT TICKET -->
+			<div role="tabpanel" class="tab-pane" id="support">
+				<h3>Support Ticket</h3>
+				<div class="row">
+					<form method="post" action="{% url 'helpdesk:contact' %}">
+						{% csrf_token %}
+						<input type="hidden" name="category" value="support">
+						<div class="form-group">
+							<label>Order Reference</label>
+							<input type="text" class="form-control" name="order_id">
+						</div>
+						<div class="form-group">
+							<label>Query</label>
+							<textarea name="message" class="form-control" rows="5">{% if form.message.value %}{{form.message.value}}{% endif %}</textarea>
+						</div>
+						<input type="submit" class="btn btn-lg btn-primary" value="Send">
+					</form>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

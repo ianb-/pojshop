@@ -1,0 +1,44 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Stock Control{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <h1 class="page-header">Product Stock</h1>
+            <table class="table">
+            {% if products %}
+            <tr>
+                <th>Product</th>
+                <th>Items in stock</th>
+                <th>Something else</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td><a href="{% url 'cpanel:product' product.slug %}">{{product}}</a></td>
+                <td>{{product.stock}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <span>No products found</span>
+            {% endif %}
+            </table>
+        </div>
+        <div class="col-md-3">
+            <h1 class="page-header">Last week sales</h1>
+            <ul class="list-unstyled">
+                {% for sale in week %}
+                <li>{{ sale.n }} x {{ sale.product__name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h1 class="page-header">4 week sales</h1>
+            <ul class="list-unstyled">
+                {% for sale in month %}
+                <li>{{ sale.n }} x {{ sale.product__name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

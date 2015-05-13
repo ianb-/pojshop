@@ -1,0 +1,37 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}New Image Upload{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">New Image Upload</h1>
+<div class="row">
+	<div class="col-md-6 col-sm-12">
+		<form method="post" action="{% url 'cpanel:new_image' %}" enctype="multipart/form-data">{% csrf_token %}
+			<div class="form-group">
+				<label for="product">Product</label>
+				<select class="form-control" name="product">
+					{% if product %}
+					<option value="{{ product.slug }}">{{ product.name }}</option>
+					{% else %}
+					{% for product in products %}
+					<option value="{{ product.slug }}">{{ product.name }}</option>
+					{% endfor %}
+					{% endif %}
+				</select>
+			</div>
+			<div class="checkbox">
+				<label for="Cover">
+					<input type="checkbox" name="is_main" value="main_true"> Use this image as the main cover image? It will be displayed on the front pages of the site.
+				</label>
+			</div>
+			<div class="form-group">
+				<label for="image">Image</label>
+				<input type="file" name="image">
+			</div>
+			<button type="submit" class="btn btn-warning">Submit</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

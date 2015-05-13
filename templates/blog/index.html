@@ -1,0 +1,19 @@
+{% extends 'base/head.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1 class="page-header">Inventory Blog</h1>
+
+{% if articles %}
+	{% for article in articles %}
+		<h3 class="page-header"><a href="/blog/{{article.slug}}">{{ article.title }}</a></h3>
+		<p>Posted {{ article.created }} by {{ article.author.username }}
+		<div>{{ article.content|linebreaks|truncatechars:200 }}<p><a href="/blog/{{ article.slug }}">read more</a></div>
+	{% endfor %}
+{% else %}
+	<p>No articles found. Probably an error?</p>
+    <p>{{ request.session.trolley.product_name }}</p>
+{% endif %}
+
+{% endblock %}

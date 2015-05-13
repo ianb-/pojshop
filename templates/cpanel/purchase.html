@@ -1,0 +1,67 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}Purchase {{ purchase.id }}{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">Purchase #{{ purchase.id }}</h1>
+<div class="row">
+	<div class="col-md-7 col-sm-12">
+		<h4>
+			<a href="{% url 'cpanel:supplier' purchase.supplier.id %}">{{ purchase.supplier }}</a><br>
+			£{{ purchase.price|floatformat:2 }}<br>
+			{{ purchase.date }}
+		</h4>
+	</div>
+	<div class="col-md-4 col-xs-12">
+	{% if purchase.final %}
+		<div class="alert alert-success col-md-4">
+		Order Processed <i class="fa fa-check-square-o"></i>
+		</div>
+	{% else %}
+		<div class="alert alert-danger col-md-6">
+			<span><strong>£{{ remainder|floatformat:2 }}</strong> outstanding of £{{ purchase.price|floatformat:2 }}</span>
+		</div>
+		<div class="col-md-6">
+			<button class="btn btn-default alert alert-info" data-toggle="modal" data-target="#purchaseDetailModal"><i class="fa fa-plus-circle"></i> Add Item</button>
+		</div>
+	{% endif %}
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<table class="table">
+			<tr>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Price</th>
+			</tr>
+			{% for detail in purchase_details %}
+			<tr>
+				<td>{{ detail.product }}</td>
+				<td>{{ detail.quantity }}</td>
+				<td>£{{ detail.price|floatformat:2 }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+
+<!-- New Purchase Modal -->
+<div class="modal fade" id="purchaseDetailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="supplierModalLabel">New Items</h4>
+            </div>
+            <div class="modal-body">
+                {% include "cpanel/forms/form_purchase_detail_new.html" %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

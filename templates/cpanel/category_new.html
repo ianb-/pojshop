@@ -1,0 +1,50 @@
+{% extends 'cpanel/head.html' %}
+
+{% block title %}New Product Category{% endblock %}
+
+{% block content %}
+        <h1 class="page-header">New Product Category</h1>
+
+        <form enctype="multipart/form-data" method="post" role="form" action=".">
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="id_title">Name</label>
+                    <input type="text" class="form-control" id="id_title" name="title">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label>Category Tier</label>
+                    <select name="level" class="form-control">
+                        <option value="0">Top tier</option>
+                        <option value="1">Sub-category</option>
+                        <option value="2">Sub-sub-category :)</option>
+                        <option value="3">General Tag</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Parent Category</label>
+                    <select name="parent" class="form-control">
+                        <option>None</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="id_details">Category Description</label>
+                    <textarea class="form-control" id="id_details" name="details" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_image">Banner Image</label>
+                <input type="file" id="id_image" name="image">
+                <p>Please select a high quality image for the category. This will be used as the title/banner when browsing this category</p>
+            </div>
+            <button type="Submit" class="btn btn-warning">Submit</button>
+        </form>
+
+{% endblock %}

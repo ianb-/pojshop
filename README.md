@@ -5,4 +5,4 @@ I am trying to learn about web development, and after completing an online cours
 
 My goals were to gain experience in working on a large project, at least, a project larger and more complex than a single-page/standalone-problem tasks. I also wanted to see a project through to publishing. This website is still a work-in-progress, but it has a set of complementing features, and I've learned about Django deployment on to a webserver.
 
-Like I said, it's not truely a finished project, and indeed, the bulk of the project is in the control panel/CMS thingy which is not visible to anyone without a staff account. But the site is live at http://poj.ianb.net/
+Like I said, it's not a finished project, and indeed, the bulk of the project is in the control panel/CMS thing which is not visible to anyone without a staff account. But the site is live at http://poj.ianb.net/

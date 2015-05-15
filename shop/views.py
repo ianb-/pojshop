@@ -27,7 +27,7 @@ def front(request):
     return render(request, 'shop/frontpage.html', data)
 
 def category(request, category_slug, pg=None):
-    per_page = 1 #products per page!
+    per_page = 12 #products per page!
     if pg:
         pg = int(pg)
     else:

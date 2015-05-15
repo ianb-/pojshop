@@ -10,12 +10,28 @@ class CategoryForm(forms.ModelForm):
     title = forms.CharField(max_length=64)
     details = forms.CharField(widget=forms.Textarea(), required=False)
     image = forms.ImageField()
-    level = forms.CharField()
+    level = forms.CharField(required=False)
     parent = forms.CharField()
 
     class Meta:
         model = Category
-        fields = ('title','details','image','level',)
+        fields = ('title','details','image','parent','level')
+
+    def clean_level(self):
+    	parent = self.cleaned_data.get('parent')
+    	if parent == None:
+    		level = 0
+    	else:
+    		level = parent.level + 1
+    	return level
+
+    def clean_parent(self):
+    	parent = self.cleaned_data.get('parent')
+    	if parent == 'None':
+    		parent = None
+    	else:
+    		parent = Category.objects.get(id=parent)
+    	return parent
 
 class ProductForm(forms.ModelForm):
 	name = forms.CharField(max_length=64)

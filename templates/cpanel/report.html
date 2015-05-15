@@ -41,20 +41,28 @@
 {% if start_date %}
 <div class="row">
 	<div class="col-md-6">
-		<table class="table">
-			<tr>
-				<th>Product</th>
-				<th>Purchase Price</th>
-				<th>Sale Price</th>
-			</tr>
-			{% for item in purchases %}
-			<tr>
-				<td>{{ item.product }}</td>
-				<td>£{{ item.purchase_price }}</td>
-				<td>{% if item.sale_price != None %}£{{ item.sale_price }}{% else %}Not yet sold{% endif %}</td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div class="col-md-6">
+			<h3>Purchases</h3>
+			<table class="table">
+				{% for purchase in purchases %}
+				<tr>
+					<td>{{ purchase.product }}</td>
+					<td class="text-danger">£{{ purchase.purchase_price }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="col-md-6">
+			<h3>Sales</h3>
+			<table class="table">
+				{% for sale in sales %}
+				<tr>
+					<td>{{ sale.product }}</td>
+					<td class="text-success">£{{ sale.sale_price }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
 	<div class="col-md-6">
 		<h1 class="page-header">{{ start_date|date:"dS F Y" }} to {{ end_date|date:"dS F Y" }}</h1>
@@ -62,7 +70,6 @@
 			<ul class="list-unstyled">
 				<li>{{ purchases|length }} item purchases costing <strong class="text-danger">{% if outgoing_total %}£{{ outgoing_total }}{% else %}£0{%endif %}</strong> total</li>
 				<li>{{ sales|length }} item sales of total <strong class="text-success">{% if incoming_total %}£{{ incoming_total }}{% else %}£0{% endif %}</strong></li>
-				<li>That's a difference of <strong class="text-primary">£{{ diff }}</strong></li>
 			</ul>
 		</div>
 	</div>

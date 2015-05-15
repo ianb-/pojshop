@@ -28,14 +28,6 @@ def dashboard(request):
 	return render(request, 'cpanel/dashboard.html', data)
 
 @user_passes_test(staff_check, login_url='/accounts/login/')
-def categories(request):
-	try:
-		categories = Category.objects.all().order_by('level')
-	except Category.DoesNotExist:
-		pass
-	return render(request, 'cpanel/categories.html', {'categories': categories})
-
-@user_passes_test(staff_check, login_url='/accounts/login/')
 def products(request):
 	data = {}
 	try:
@@ -48,7 +40,8 @@ def products(request):
 
 @user_passes_test(staff_check, login_url='/accounts/login/')
 def new_product(request):
-	categories = Category.objects.all().order_by('level')
+	data = {}
+	data['categories0'] = Category.objects.filter(level=0)
 	if request.method == 'POST':
 		form = ProductForm(request.POST,request.FILES)
 		if form.is_valid():
@@ -61,7 +54,8 @@ def new_product(request):
 			print form.errors
 	else:
 		form = ProductForm()
-	return render(request, 'cpanel/product_new.html', {'form':form,'categories':categories})
+	data['form'] = form
+	return render(request, 'cpanel/product_new.html', data)
 
 @user_passes_test(staff_check, login_url='/accounts/login/')
 def product(request, product_slug):
@@ -158,17 +152,41 @@ def edit_product(request, product_slug):
 	return render(request, 'cpanel/product_edit.html', data)
 
 @user_passes_test(staff_check, login_url='/accounts/login/')
+def categories(request):
+	try:
+		categories = Category.objects.all().order_by('level', 'title')
+	except Category.DoesNotExist:
+		pass
+	return render(request, 'cpanel/categories.html', {'categories': categories})
+
+@user_passes_test(staff_check, login_url='/accounts/login/')
+def category(request, category_slug):
+	try:
+		category = Category.objects.get(slug=category_slug)
+	except Category.DoesNotExist:
+		return HttpResponse("Cannae get this category, cap'n.")
+	data = {}
+	data['category'] = category
+	data['categories'] = Category.objects.all().order_by('level', 'title')
+	if request.method == 'POST':
+		form = CategoryForm(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return redirect('cpanel:category', category.slug)
+		else:
+			data['form'] = form
+			return render(request, 'cpanel/category.html', data)
+	else:
+		data['form'] = CategoryForm()
+		return render(request, 'cpanel/category.html', data)
+
+@user_passes_test(staff_check, login_url='/accounts/login/')
 def new_category(request):
 	categories = Category.objects.order_by('title')
 	if request.method == 'POST':
 		form = CategoryForm(request.POST, request.FILES)
 		if form.is_valid():
-			f = form.save(commit=False)
-			if f.level > 0:
-				f.parent = Category.objects.get(id=int(form.cleaned_data.get('parent')))
-			else:
-				f.parent = None
-			f.save()
+			form.save()
 			return redirect('cpanel:categories')
 		else:
 			print form.errors

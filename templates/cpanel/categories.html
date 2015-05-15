@@ -11,12 +11,14 @@
 		    <table class="table">
 		    	<tr>
 		    		<th>Category</th>
+		    		<th>Parent Category</th>
 		    		<th><i class="fa fa-cogs"></i></th>
 		    	</tr>
 		        {% for cat in categories %}
 		        <tr>
-		        	<td><a href="/cpanel/{{ cat.slug }}">{{ cat.title }}</a></td>
-		        	<td></td>
+		        	<td><a href="{% url 'cpanel:category' cat.slug %}">{{ cat.title }}</a></td>
+		        	<td>{% if cat.parent %}{{ cat.parent }}{% endif %}</td>
+		        	<td><a href="{% url 'cpanel:category' cat.slug %}"><span class="fa fa-edit"></span> Edit</a></td>
 		        </tr>
 		        {% endfor %}
 		    </table>

@@ -12,7 +12,21 @@
     <div class="form-group">
         <label>Categories</label>
         <div class="row">
-        {% for category in categories %}
+        {% for category in categories0 %}
+            <div class="col-sm-2">
+                <input type="checkbox" name="category" value="{{ category.id }}" {% if category in pcats %}checked{% endif %}>{{ category.title }}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="row">
+        {% for category in categories1 %}
+            <div class="col-sm-2">
+                <input type="checkbox" name="category" value="{{ category.id }}" {% if category in pcats %}checked{% endif %}>{{ category.title }}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="row">
+        {% for category in categories2 %}
             <div class="col-sm-2">
                 <input type="checkbox" name="category" value="{{ category.id }}" {% if category in pcats %}checked{% endif %}>{{ category.title }}
             </div>

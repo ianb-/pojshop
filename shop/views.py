@@ -210,10 +210,13 @@ def history(request):
 @login_required
 def order(request, order_id):
     try:
-        order = SaleOrder.objects.get(order_id=order_id, user=request.user)
+        order = SaleOrder.objects.get(order_id=order_id)
     except SaleOrder.DoesNotExist:
-        return HttpResponse('There has been some kind of mistake.')
-    data = {}
-    data['order'] = order
-    data['items'] = SaleDetail.objects.filter(order=order)
-    return render(request, 'shop/order.html', data)
+        return HttpResponse("Error! Order not found yo.")
+    if order.user == request.user:
+        data = {}
+        data['order'] = order
+        data['products'] = SaleDetail.objects.filter(order=order)
+        return render(request, 'shop/order.html', data)
+    else:
+        return HttpResponse("Oi! What're you up to, eh?")

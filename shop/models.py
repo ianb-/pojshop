@@ -183,6 +183,7 @@ class Item(models.Model):
 		if self.sale_price:
 			self.is_for_sale = False
 			p.stock -= 1
+			p.sales += 1
 			p.save()
 		if self.is_for_sale:
 			p.stock += 1

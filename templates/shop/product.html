@@ -18,7 +18,7 @@
                 <div class="row">
                     {% for i in images %}
                     <div class="col-sm-3">
-                        <img class="img-responsive img-thumbnail" src="{% thumbnail i.image 80x80 crop %}">
+                        <a href="{{ i.image.url }}" target="_blank"><img class="img-responsive img-thumbnail" src="{% thumbnail i.image 80x80 crop %}"></a>
                     </div>
                     {% endfor %}
                 </div>
@@ -39,7 +39,6 @@
                         </p>
                     </div>
                     <div class="col-xs-2">
-                        <input class="form-control" type="number" name="quantity" value=1 min="1" max="{{product.stock}}" pattern="[0-9]">
                         <button class="btn btn-danger edit-trolley" id="buy-{{product.id}}" data-url="{% url 'shop:add_to_trolley' %}" data-direction="take" data-pid="{{product.id}}">Buy!</button>
                     </div>
                 </div>

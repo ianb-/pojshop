@@ -19,7 +19,7 @@
                 <div class="form-group col-md-2">
                     <label>Parent Category</label>
                     <select name="parent" class="form-control">
-                        <option value="{{ category.id }}">{{ category.title }}</option>
+                        <option value="{{ category.parent.id }}">{{ category.parent.title }}</option>
                         <option value="None">None</option>
                         {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.title }}</option>

@@ -45,6 +45,8 @@ def products(request):
 def new_product(request):
 	data = {}
 	data['categories0'] = Category.objects.filter(level=0)
+	data['categories1'] = Category.objects.filter(level=1)
+	data['categories2'] = Category.objects.filter(level=2)
 	if request.method == 'POST':
 		form = ProductForm(request.POST,request.FILES)
 		if form.is_valid():

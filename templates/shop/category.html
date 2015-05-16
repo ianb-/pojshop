@@ -27,7 +27,7 @@
             <hr><br>
             {% if products %}
                 {% for product in products %}
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <a href="{% url 'shop:product' product.slug %}">{{ product.name }}</a>

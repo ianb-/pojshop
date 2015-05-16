@@ -8,44 +8,50 @@
 	<div class="col-lg-8 col-lg-offset-2 col-sm-12">
 		<h1 class="page-header">Inventory Helpdesk</h1>
 		<h4>Your ref: {{ ticket.reference }}</h4>
-		<div class="col-lg-11 well well-lg">
-			<p>{{ ticket.message }}</p>
-			<p class="pull-right"><strong>{{ ticket.user.username }}{{ ticket.name }}</strong> <i>{{ ticket.datetime }}</i></p>
-		</div>
-		{% if user.is_staff %}
-		<div class="col-lg-1">
-			<div class="dropdown">
-				<button class="dropdown-toggle btn btn-default" data-toggle="dropdown">
-					<i class="fa fa-cog"></i>
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="{% url 'helpdesk:change_status' ticket.reference %}">
-						{% if ticket.status == "Open" %}Close Ticket
-						{% else %}Open Ticket
-						{% endif %}</a></li>
-					<li><a href="{% url 'helpdesk:delete_ticket' ticket.reference %}">Delete Ticket</a></li>
-				</ul>
+		<div class="row">
+			<div class="col-lg-11 well well-lg">
+				<p>{{ ticket.message }}</p>
+				<p class="pull-right"><strong>{{ ticket.user.username }}{{ ticket.name }}</strong> <i>{{ ticket.datetime }}</i></p>
 			</div>
-		</div>
-		{% endif %}
-		{% for post in replies %}
-		<div class="col-lg-11">
-			<p>{{ post.message|linebreaks }}</p>
-			<p class="pull-right">
-				{% if post.user.is_staff %}<i class="fa fa-star-o" title="Staff Member"></i>{% endif %}
-				<strong>{{ post.user.username }}</strong> <i>{{ post.datetime }}</i>
-			</p>
+			{% if user.is_staff %}
+			<div class="col-lg-1">
+				<div class="dropdown">
+					<button class="dropdown-toggle btn btn-default" data-toggle="dropdown">
+						<i class="fa fa-cog"></i>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="{% url 'helpdesk:change_status' ticket.reference %}">
+							{% if ticket.status == "Open" %}Close Ticket
+							{% else %}Open Ticket
+							{% endif %}</a></li>
+						<li><a href="{% url 'helpdesk:delete_ticket' ticket.reference %}">Delete Ticket</a></li>
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+			{% for post in replies %}
+			<div class="col-lg-11">
+				<p>{{ post.message|linebreaks }}</p>
+				<p class="pull-right">
+					{% if post.user.is_staff %}<i class="fa fa-star-o" title="Staff Member"></i>{% endif %}
+					<strong>{{ post.user.username }}</strong> <i>{{ post.datetime }}</i>
+				</p>
+			</div>
 		</div>
 		{% endfor %}
 		{% if user.is_authenticated and ticket.status == "Open" %}
-		<form action="{% url 'helpdesk:ticket' ticket.reference %}" method="post">
-			{% csrf_token %}
-			<div class="form-group">
-				<textarea name="message" class="form-control" rows="5"></textarea>
+		<div class="row">
+			<div class="col-md-12">
+				<form action="{% url 'helpdesk:ticket' ticket.reference %}" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<textarea name="message" class="form-control" rows="5"></textarea>
+					</div>
+					<input type="submit" class="pull-right btn btn-primary btn-lg" value="Reply">
+				</form>
 			</div>
-			<input type="submit" class="pull-right btn btn-primary btn-lg" value="Reply">
-		</form>
+		</div>
 		{% endif %}
 	</div>
 </div>

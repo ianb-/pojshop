@@ -133,7 +133,9 @@ def delete_image(request, image_id):
 def edit_product(request, product_slug):
 	data ={}
 	product = Product.objects.get(slug=product_slug)
-	data['categories'] = Category.objects.all().order_by('title')
+	data['categories0'] = Category.objects.filter(level=0)
+	data['categories1'] = Category.objects.filter(level=1)
+	data['categories2'] = Category.objects.filter(level=2)
 	p2c = Product_to_cat.objects.filter(product=product)
 	data['pcats'] = [x.category for x in p2c]
 	form = ProductForm(request.POST, request.FILES or None, instance=product)

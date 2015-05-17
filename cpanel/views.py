@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.template.defaultfilters import slugify
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q
 
 from shop.models import *
 from forms import *
@@ -24,8 +24,7 @@ def dashboard(request):
 	data['purchase_count'] = PurchaseOrder.objects.filter(final=False).count()
 	data['purchases'] = PurchaseOrder.objects.filter().order_by('-date')[:5]
 	data['tickets'] = Ticket.objects.filter().order_by('-datetime')[:5]
-	data['ticket_count'] = Ticket.objects.filter(status=None).count()
-	data['my_tickets'] = Ticket.objects.filter().count()
+	data['ticket_count'] = Ticket.objects.filter(~Q(status="Closed")).count()
 	data['viewed'] = Product.objects.all().order_by('-views')[:5]
 	data['sold'] = Product.objects.all().order_by('-sales')[:5]
 	return render(request, 'cpanel/dashboard.html', data)
@@ -54,7 +53,7 @@ def new_product(request):
 			p = Product.objects.latest('id')
 			for c in request.POST.getlist('category'):
 				Product_to_cat.objects.create(product=p,category=Category.objects.get(id=c))
-			return products(request)
+			return redirect('cpanel:product', p.slug)
 		else:
 			print form.errors
 	else:

@@ -10,20 +10,22 @@
 		<table class="table">
 			<tr>
 				<th>ID</th>
-				<th>Date</th>
-				<th>Name</th>
 				<th>Category</th>
+				<th>Date</th>
+				<th>Status</th>
+				<th>Name</th>
 				<th></th>
 				<th></th>
 			</tr>
 			{% for ticket in tickets %}
 			<tr>
 				<td>{{ticket.id}}</td>
-				<td>{{ticket.datetime}}</td>
-				<td>{{ticket.name}}{{ticket.user.username}}</td>
 				<td>{{ticket.category|capfirst}}</td>
-				<td>{{ticket.message|truncatechars:50}} <a href="{% url 'helpdesk:ticket' ticket.reference %}"><i class="fa fa-comments"></i></a></td>
-				<td><i class="fa fa-cog"></i></td>
+				<td>{{ticket.datetime}}</td>
+				<td>{{ticket.status}}</td>
+				<td>{{ticket.name}}{{ticket.user.username}}</td>
+				<td>{{ticket.message|truncatechars:50}}</td>
+				<td><a href="{% url 'helpdesk:ticket' ticket.reference %}"><i class="fa fa-lg fa-comments"></i></a></td>
 			</tr>
 			{% endfor %}
 		</table>
